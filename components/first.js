@@ -11,7 +11,7 @@ const Home = ({navigation}) => {
   }
   useEffect(()=> {
       async function A(){
-          await delay(2000)
+          await delay(8000)
           navigate()
       }
       A()
@@ -45,5 +45,6 @@ const styles = StyleSheet.create({
   text2: {
     color: '#fff',
     fontSize: 17,
+    marginBottom: 15,
   }
 });
