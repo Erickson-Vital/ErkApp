@@ -57,8 +57,8 @@ export default class App extends Component{
             value={this.state.text}
             placeholder="Adicionar Tarefa"
           />
-          <Button onPress={this.inserirItem} title="INSERIR" />
-          <Button onPress={this.carregarLista} title="CARREGAR" />
+          <Button onPress={this.inserirItem} title="INSERIR" style={styles.botao}/>
+          <Button onPress={this.carregarLista} title="CARREGAR" style={styles.botao}/>
         </View>
       </View>
     )
@@ -93,5 +93,8 @@ const styles = StyleSheet.create({
     fontSize: 17,
     borderRadius: 7,
     padding: 10,
+  },
+  botao: {
+    margin: '10%',
   },
 });
