@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
+import Menu, { MenuItem } from 'react-native-material-menu';
 import { StyleSheet, Text, View, FlatList, TextInput, Button, TouchableHighlight } from 'react-native';
+import Item from "./item";
 
 
 const listName = "Minha Lista"
@@ -15,10 +17,14 @@ export default class App extends Component{
   constructor(props) {
     super(props)
     this.inserirItem = this.inserirItem.bind(this)
+    this.carregarLista()
   }
   renderItem(obj) {
+    const [menuRef, setMenuRef] = useState({});
     return (
-      <Text style={styles.cell}>{obj.item.desc}</Text>
+      <Menu button={<View onTouchEnd={() => menuRef?.show()}><Text style={styles.cell}>{obj.item.desc}</Text></View>} >
+        <MenuItem onPress={()=> {removeItemValue(obj.key)}} >Remover</MenuItem>
+      </Menu>
     )
   }
    inserirItem = () => {
@@ -39,6 +45,14 @@ export default class App extends Component{
     this.setState({ text })
 
   }
+  removeItemValue = (key) => {
+    let itens = this.state.itens.filter(item=>item.key !== key.toString())
+    this.setState((state, prop) => ({ ...state, itens }))
+    AsyncStorage.setItem(
+      listName,
+      JSON.stringify(itens)
+    )
+}
   carregarLista = async () => {
     let lista = await AsyncStorage.getItem(listName);
     let itens = JSON.parse(lista)
@@ -48,8 +62,12 @@ export default class App extends Component{
   render() {
     return (
       <View style={styles.container}>
-        <FlatList style={styles.list} data={this.state.itens} renderItem={this.renderItem} extraData={this.state} />
-        <View>
+        <FlatList style={styles.list} data={this.state.itens} 
+         renderItem={( item ) => (
+          <Item obj={item} removeItemValue={this.removeItemValue} />
+        )}
+        extraData={this.state} />
+        <View style={styles.vie}>
           <TextInput
             style={styles.input}
             onChangeText={(text) => { this.setState({ text }) }}
@@ -57,8 +75,7 @@ export default class App extends Component{
             value={this.state.text}
             placeholder="Adicionar Tarefa"
           />
-          <Button onPress={this.inserirItem} title="INSERIR" style={styles.botao}/>
-          <Button onPress={this.carregarLista} title="CARREGAR" style={styles.botao}/>
+          <Button onPress={this.inserirItem} title="INSERIR"/>
         </View>
       </View>
     )
@@ -95,6 +112,6 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   botao: {
-    margin: '10%',
-  },
+    margin: 5,
+  }
 });
