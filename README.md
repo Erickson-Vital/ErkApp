@@ -1,4 +1,4 @@
-# React App
+# My first application in ReactNative
 [![RealWorld Frontend](https://img.shields.io/npm/v/npm)](http://realworld.io)
 
 Personal application to schedule daily tasks. Application under development...
