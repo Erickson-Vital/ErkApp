@@ -11,7 +11,7 @@ const Home = ({navigation}) => {
   }
   useEffect(()=> {
       async function A(){
-          await delay(8000)
+          await delay(5000)
           navigate()
       }
       A()
